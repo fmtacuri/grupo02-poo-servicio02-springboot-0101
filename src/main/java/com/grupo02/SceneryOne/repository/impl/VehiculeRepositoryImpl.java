@@ -2,6 +2,7 @@ package com.grupo02.SceneryOne.repository.impl;
 
 import com.grupo02.SceneryOne.domain.VehicleJpa;
 import com.grupo02.SceneryOne.domain.dto.VehicleDto;
+import com.grupo02.SceneryOne.domain.dto.VehicleInformationDto;
 import com.grupo02.SceneryOne.domain.enums.FuelType;
 import com.grupo02.SceneryOne.exception.InternalErrorException;
 import com.grupo02.SceneryOne.exception.NotFoundException;
@@ -9,6 +10,8 @@ import com.grupo02.SceneryOne.factory.VehicleFactory;
 import com.grupo02.SceneryOne.repository.VehicleJpaRepository;
 import com.grupo02.SceneryOne.repository.VehiculeRepository;
 import com.grupo02.SceneryOne.service.mapper.VehiculeMapper;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import javax.transaction.Transactional;
 import lombok.AccessLevel;
@@ -48,5 +51,22 @@ public class VehiculeRepositoryImpl implements VehiculeRepository {
   @Override
   public boolean validateFuelType(String fuelType) {
     return !Objects.isNull(FuelType.findType(fuelType));
+  }
+
+  @Override
+  public VehicleInformationDto findVehicleById(long id) {
+    VehicleJpa byId = vehicleJpaRepository.findById(id).orElse(null);
+    if (Objects.isNull(byId)) {
+      throw new NotFoundException("Vehicle not found");
+    }
+    return vehiculeMapper.toVehicleDto(byId);
+  }
+
+  @Override
+  public List<VehicleInformationDto> findAllVehicles() {
+    List<VehicleJpa> vehicles = vehicleJpaRepository.findAllVehicles()
+        .orElse(Collections.emptyList());
+
+    return vehiculeMapper.toVehicleList(vehicles);
   }
 }

@@ -16,6 +16,6 @@ public class VanImpl implements VehicleService {
   @Override
   public float getRegistrationCost(String plaque) {
     log.info("It is VAN: {}", () -> plaque);
-    return 20;
+    return 139.55F;
   }
 }
