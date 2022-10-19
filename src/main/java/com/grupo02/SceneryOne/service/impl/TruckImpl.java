@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 public class TruckImpl implements VehicleService {
 
   @Override
-  public float getRegistrationCost() {
+  public float getRegistrationCost(String plaque) {
+    log.info("It is TRUCK: {}", () -> plaque);
     return 30;
   }
 }
